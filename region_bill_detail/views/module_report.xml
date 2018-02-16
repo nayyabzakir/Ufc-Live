@@ -303,6 +303,28 @@
 
                                     </t>
 
+                                    <t t-foreach="number" t-as="line">
+                                        <tr>
+                                            <td class="bbottomnone grey">
+                                            </td>           
+                                            <td> - </td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>           
+                                            <td></td>
+                                            <td></td>
+
+                                        </tr>           
+                                    </t>
+
                                     <tr>
                                         <td class="bbottomnone grey" rowspan="6"></td>
                                         <td colspan="2"></td>

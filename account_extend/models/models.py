@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import Warning, ValidationError
 
 class account_extend(models.Model):
 	_inherit = 'account.invoice'
@@ -28,7 +29,6 @@ class move_extend(models.Model):
     _inherit = 'account.move'
 
     branch      = fields.Many2one('branch',string="Branch")
-    ufc_id      = fields.Many2one('ufc.auto')
 
 
 class journal_extend(models.Model):
@@ -50,8 +50,16 @@ class bank_extend(models.Model):
 		records = self.env['account.journal'].search([('id','=',self.journal_id.id)])
 		self.branch = records.branch.id
 
+	@api.multi
+	def unlink(self):
+		users = self.env['res.users'].search([('id','=',self._uid)])
+		if users.name != "Administrator":
+			raise  ValidationError('Cannot Delete Record')
+	
+		return super(bank_extend,self).unlink()
 
-class bank_extend(models.Model):
+
+class bank_extend_line(models.Model):
 	_inherit = 'account.bank.statement.line'
 
 	branch   = fields.Many2one('branch',string="Branch")
@@ -61,7 +69,7 @@ class bank_extend(models.Model):
 
 	@api.multi
 	def process_reconciliation(self,data,uid,id):
-		new_record = super(bank_extend, self).process_reconciliation(data,uid,id)
+		new_record = super(bank_extend_line, self).process_reconciliation(data,uid,id)
 		records = self.env['account.bank.statement'].search([('id','=',self.statement_id.id)])
 		journal_entery =  self.env['account.move'].search([], order='id desc', limit=1)
 		journal_entery.branch = records.branch.id

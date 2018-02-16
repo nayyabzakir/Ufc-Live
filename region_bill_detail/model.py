@@ -47,6 +47,7 @@ class SampleDevelopmentReport(models.AbstractModel):
                     if record_wizard.region == z.region and record_wizard.types == z.types:
                         if z not in enteries:
                             enteries.append(z)
+
                             
         for x in records:
             if x.Customer.name == "FFC Goth Machi":
@@ -61,21 +62,12 @@ class SampleDevelopmentReport(models.AbstractModel):
             for x in records:
                 if x.Customer.name == "FFC Mir Pur Mathelo":
                     for z in x.sum_ids:
-                        print record_wizard.region.name
-                        print z.region_name
-                        print "kkkkkkkkkkkkkkkkkkkkkk"
                         if record_wizard.region.name == z.region_name:
-                            print z.bill_num
-                            print "mmmmmmmmmmmmmmmmmm"
                             return z.bill_num
 
 
-        print bill()
-        print "ooooooooooooooooooooooooo"
-
             
         def namer():
-            print "--------------"
             prov = ""
             for x in records:
                 if x.Customer.name == "FFC Goth Machi":
@@ -92,6 +84,7 @@ class SampleDevelopmentReport(models.AbstractModel):
             if x.code not in codes:
                 codes.append(x.code)
         codes.sort(key=int)
+
        
         sorted_records = []
         for x in codes:
@@ -100,22 +93,34 @@ class SampleDevelopmentReport(models.AbstractModel):
                     sorted_records.append(y)
 
 
-        # def custm():
-        #     print "88888888888888888888888888888888888888888888888"
-        #     name = ""
-        #     for data in records:
-        #         print records
-        #         print "88888888888888888888888888888888888888888888888"
-        #         if data.Customer == "FFC Goth Machi":
-        #             name = data.Customer
-        #             print name
-        #             print "000000000000000000000000000000000000000000000"
-        #         if data.Customer == "FFC Mir Pur Mathelo":
-        #             name = data.Customer
-        #             print name
-        #             print "000000000000000000000000000000000000000000000"
+        number = []
+        for x in range(7 - len(sorted_records)):
+            number.append(x)
+        counting = len(number) + 1
 
-        #     return name
+
+        if counting % 7 == 0:
+            divid = counting / 7
+        else:
+            divid = int(counting / 7) + 1
+
+        emp_count = []
+        count = 0
+        while count < divid:
+            count = count + 1
+            emp_count.append(count*7)
+        sizer = len(emp_count)
+
+
+        print sizer
+        print "jjjjjjjjjjjjjjjjjjj"
+
+        print counting
+        print "kkkkkkkkkkkkkkkkkkkk"
+
+        print emp_count
+        print "kkkkkkkkkkkkkkkkkkkk"
+
 
 
         region = record_wizard.region.name
@@ -127,6 +132,7 @@ class SampleDevelopmentReport(models.AbstractModel):
       
 
         docargs = {
+
             'doc_ids': docids,
             'doc_model': 'summary.ffc',
             'docs': records,
@@ -134,10 +140,14 @@ class SampleDevelopmentReport(models.AbstractModel):
             'enteries': enteries,
             'namer': namer,
             'sorted_records': sorted_records,
+            'number': number,
             'region': region,
             'bill': bill,
             'customer': customer,
-            'types': types
+            'types': types,
+            'loop': emp_count,
+            'sizer': sizer,
+
             }
 
         return report_obj.render('region_bill_detail.module_report', docargs)

@@ -165,9 +165,9 @@
                                     </div> -->
                                     
                                     <div class="right">
-                                        <span class="solid">MM-P-2017</span>
+                                        <span class="solid">MM-P-2018</span>
                                         <span class="liquid" t-esc="o.inv_no"></span>
-                                        <span class="solid">MM-S-2017</span>
+                                        <span class="solid">MM-S-2018</span>
                                         <span class="liquid" t-esc="o.inv_no1"></span>
                                         
                                         <span class="solid">Date :</span>
@@ -221,7 +221,7 @@
                                                 <td></td>
 
                                                 <td class="space">
-                                                    <span>2017</span>
+                                                    <span>2018</span>
                                                 </td>
                                             </tr>
 

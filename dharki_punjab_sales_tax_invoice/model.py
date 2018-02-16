@@ -47,13 +47,12 @@ class SampleDevelopmentReport(models.AbstractModel):
             return weight
 
 
+
         def rate():
             value = 0
             for z in records.sum_ids2:
                 if z.additional_freight == 50 and z.province == "pun":
                     value = value + z.weight
-                    print value
-                    print "lllllllllllllllll"
 
             return value
 

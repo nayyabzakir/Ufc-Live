@@ -80,7 +80,8 @@ class ufc_automization(models.Model):
 								('plan', 'Plan'),
 								('bilty', 'Bilty'),
 								('done', 'Done'),
-								('paid', 'Paid'),
+								('acknowledg', 'Acknowledgment'),
+								('paid', 'Payable Cleared'),
 								('cancel', 'Cancel'),
 								],default='draft')
 
@@ -98,6 +99,10 @@ class ufc_automization(models.Model):
 	@api.multi
 	def done(self):
 		self.state = 'done'
+
+	@api.multi
+	def ack(self):
+		self.state = 'acknowledg'
 
 
 	@api.multi
@@ -131,9 +136,6 @@ class ufc_automization(models.Model):
 	def get_branch(self):
 		users = self.env['res.users'].search([('id','=',self._uid)])
 		if self.customer:
-			print users.Branch.id
-			print "kkkkkkkkkkkk"
-			print "kkkkkkkkkkkk"
 			self.branch = users.Branch.id
 
 
@@ -464,6 +466,17 @@ class ufc_automization(models.Model):
 		new_record = super(ufc_automization, self).create(vals)
 
 		return new_record
+
+	@api.multi
+	def unlink(self):
+		for x in self:
+			for rec in x.driver_payment_id:
+				cash_book = self.env['account.bank.statement.line'].search([('id','=',rec.bank_id.id)])
+				for data in cash_book:
+					data.unlink()
+		super(ufc_automization, self).unlink()
+
+		return True
 		
 		# cash_enteries = self.env['account.bank.statement'].search([('branch.name','=',new_record.branch.name),('state','=','open')])
 		# if cash_enteries:
@@ -542,8 +555,8 @@ class driver_payments(models.Model):
 			for x in new_record:
 				lineCreation = lineCreationIds.create({
 					'date':x.date,
-					'name':x.driver_payment.order_no,
-					'partner_id':x.driver_payment.customer.id,
+					'name':"Freight Payment" + " " + x.driver_payment.challan_no,
+					# 'partner_id':x.driver_payment.customer.id,
 					'ref':x.driver_payment.order_no,
 					'amount':x.amount*(-1),
 					'statement_id':cash_enteries.id,
@@ -561,6 +574,7 @@ class driver_payments(models.Model):
 		super(driver_payments, self).write(vals)
 
 		for record in self:
+			record.bank_id.name = "Freight Payment" + " " + self.driver_payment.challan_no
 			record.bank_id.date = self.date
 			record.bank_id.amount = self.amount*(-1)
 
@@ -661,6 +675,14 @@ class regions(models.Model):
 		('multan','Multan Zone'),
 		],string="Zone")
 	area = fields.Many2one('area.zone',string="Area")
+	branch = fields.Many2one('branch',string="Branch")
+
+	@api.onchange('mir','dar','got')
+	def route_defination(self):
+		users = self.env['res.users'].search([('id','=',self._uid)])
+		self.branch = users.Branch.id
+		# if self.mir == True or self.dar == True or self.got == True:
+
 
 
 class AreaZone(models.Model):
@@ -757,3 +779,8 @@ class stock_user(models.Model):
 
 		return new_record
 
+
+# class stock_partner(models.Model):
+# 	_inherit 	= 'res.partner'
+
+# 	branch = fields.Many2one('branch',string="Branch")

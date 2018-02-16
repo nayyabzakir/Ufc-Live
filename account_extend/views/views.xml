@@ -54,6 +54,9 @@
             <xpath expr="//field[@name='date']" position="after">
               <field name="branch" />
             </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="attributes">
+              <attribute name="string">Description</attribute>
+            </xpath>
 
         </field> 
     </record>

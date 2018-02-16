@@ -280,10 +280,10 @@
 
 						        		<span class="solid">Sindh Sales Tax Invoice No:</span>
 						        		<t t-if = "name == 'FFC Goth Machi'">
-						        			<span class="liquid">GM-S-2017-<t t-esc="sinbill()"/></span>
+						        			<span class="liquid">GM-S-2018-<t t-esc="sinbill()"/></span>
 						        		</t>
 						        		<t t-if = "name == 'FFC Mir Pur Mathelo'">
-						        			<b><span class="liquid">MM-S-2017-<t t-esc="sinbill()"/></span></b>
+						        			<b><span class="liquid">MM-S-2018-<t t-esc="sinbill()"/></span></b>
 						        		</t>
 						        		
 						        	</div>
@@ -416,10 +416,10 @@
 
 						        		<span class="solid">Punjab Sales Tax Invoice No:</span>
 						        		<t t-if = "name == 'FFC Goth Machi'">
-						        			<span class="liquid">GM-P-2017-<t t-esc="bill()"/></span>
+						        			<span class="liquid">GM-P-2018-<t t-esc="bill()"/></span>
 						        		</t>
 						        		<t t-if = "name == 'FFC Mir Pur Mathelo'">
-						        			<b><span class="liquid">MM-P-2017-<t t-esc="bill()"/></span></b>
+						        			<b><span class="liquid">MM-P-2018-<t t-esc="bill()"/></span></b>
 						        		</t>
 						        		
 						        	</div>

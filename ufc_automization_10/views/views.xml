@@ -10,7 +10,7 @@
 
           <header>
 
-              <field name="state" widget="statusbar" statusbar_visible="draft,plan,bilty,done,paid,cancel"/>
+              <field name="state" widget="statusbar" statusbar_visible="draft,plan,bilty,done,acknowledg,paid,cancel"/>
 
               <button name="reset" type="object" string="Reset To Draft" class="oe_highlight"/>
 
@@ -21,6 +21,9 @@
 
               <button name="done" type="object" string="Done" class="oe_highlight" 
                 attrs="{'invisible':[('state','!=','bilty')]}"/>
+
+              <button name="ack" type="object" string="Acknowledgment" class="oe_highlight" 
+                attrs="{'invisible':[('state','!=','done')]}"/>
 
               <button name="cancel" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible':[('state','=','draft')]}"/>
 
@@ -34,7 +37,7 @@
 
               <group string="">
                 <field name="order_no"/>
-                <field name="customer" domain="[('customer','=',True)]" attrs="{'readonly':[('state','in',['bilty','done','paid'])]}"/>
+                <field name="customer" domain="[('customer','=',True)]" attrs="{'readonly':[('state','in',['bilty','done','paid'])]}" options="{'no_create':True}" />
                 <field name="orient" invisible="1"/>
                 <field name="dharki" invisible="1"/>
                 <field name="engro" invisible="1"/>
@@ -401,6 +404,7 @@
                 <field name="mir_zone" attrs="{'invisible':[('mir','=',False)]}"/>
                 <field name="dar_zone" attrs="{'invisible':[('dar','=',False)]}" />
                 <field name="area" attrs="{'invisible':[('dar','=',False)]}" />
+                <field name="branch" invisible="1"/>
                 
               </group>
 
@@ -416,24 +420,57 @@
 
 
 
-  <act_window id="action_new_module" 
+  <!-- <act_window id="action_new_module" 
   name="Pre Invoices" 
   res_model="ufc.auto" 
   view_mode="tree,form"
   domain="[('state', 'in', ('bilty', 'done','paid'))]"
-  />
+  context="[('readonly_by_pass' = True)]"
+  /> -->
 
     <record model="ir.actions.act_window" id="plan_menu_action">
       <field name="name">Plan</field>
       <field name="res_model">ufc.auto</field>
       <field name="view_mode">tree,form</field>
       <field name="domain">[('state', 'in', ('draft', 'plan'))]</field>
+      <field name="context">{'readonly_by_pass': True}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_new_module">
+      <field name="name">Pre Invoices</field>
+      <field name="res_model">ufc.auto</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('state', 'in', ('bilty', 'done','paid'))]</field>
+      <field name="context">{'readonly_by_pass': True}</field>
     </record>
 
   <menuitem id="menu_new_module" name="Pre Invoices" parent="account.menu_finance"  sequence="0"/>
+
  
 <menuitem id="menu_new_module_child0" name="Plan" parent="menu_new_module" action="plan_menu_action" sequence="0" />
 <menuitem id="menu_new_module_child1" name="Pre Invoices" parent="menu_new_module" action="action_new_module" sequence="1"/>
+
+<record model="ir.actions.act_window" id="region_menu_action">
+  <field name="name">Regions</field>
+  <field name="res_model">regions</field>
+  <field name="view_mode">tree,form</field>
+</record>
+
+  <menuitem id="region_new_module" name="Regions" parent="account.menu_finance_receivables" action="region_menu_action" sequence="102"/>
+
+  <!-- <record id="invoice_form_extension_partner" model="ir.ui.view">
+        <field name="name">invoice_form_extension_partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+
+              <field name="branch" />
+             
+            </xpath>
+        </field>
+    </record> -->
 
   <record model="ir.rule" id="ir_values_active_branch">
       <field name="name">Active User Branch Rule</field>
@@ -444,6 +481,27 @@
       <field name="perm_unlink" eval="True"/>
       <field name="perm_create" eval="True"/>
     </record>
+
+
+  <record model="ir.rule" id="ir_values_active_branch_region">
+      <field name="name">Active User Branch Rule Region</field>
+      <field name="model_id" ref="ufc_automization_10.model_regions"/>
+      <field name="domain_force">[('branch','=',user.Branch.id)]</field>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+      <field name="perm_create" eval="True"/>
+    </record>
+
+  <!-- <record model="ir.rule" id="ir_values_active_branch_cust">
+      <field name="name">Active User Branch Rule cust</field>
+      <field name="model_id" ref="sale.model_res_partner"/>
+      <field name="domain_force">[('branch','=',user.Branch.id)]</field>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+      <field name="perm_create" eval="True"/>
+    </record> -->
 
     
 

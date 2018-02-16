@@ -182,17 +182,23 @@
        
         <field name="Customer"/>
         <field name="Branch"/>
-        <field name="date_from"/>
-        <field name="date_to"/>
+        <field name="bill_no"/>
 
       </tree> 
       </field> 
     </record>
 
-    <act_window id="action_summary_ffc" 
+   <!--  <act_window id="action_summary_ffc" 
     name="Summary" 
     res_model="summary.ffc" 
-    view_mode="tree,form" />
+    view_mode="tree,form" /> -->
+
+    <record model="ir.actions.act_window" id="action_summary_ffc">
+      <field name="name">Summary</field>
+      <field name="res_model">summary.ffc</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'readonly_by_pass': True}</field>
+    </record>
  
 
   <menuitem id="menu_summary_ffc" name="Bill Summary" parent="ufc_automization_10.menu_new_module" action="action_summary_ffc" sequence="7"/>

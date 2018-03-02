@@ -14,6 +14,8 @@
 
               <button name="reset" type="object" string="Reset To Draft" class="oe_highlight"/>
 
+              <!-- <button name="challan" type="object" string="challan" class="oe_highlight"/> -->
+
               <button name="plane" type="object" string="Plan" class="oe_highlight"
               attrs="{'invisible':[('state','!=','draft')]}"/>
 

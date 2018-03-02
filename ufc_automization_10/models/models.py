@@ -115,6 +115,16 @@ class ufc_automization(models.Model):
 		self.state = 'draft'
 
 
+	# @api.multi
+	# def challan(self):
+	# 	rec = self.env['ufc.auto'].search([])
+	# 	for x in rec:
+	# 		for y in x.driver_payment_id:
+	# 			if y.bank_id:
+	# 				y.bank_id.name = "Freight Payment" + " " + str(x.challan_no)
+
+
+
 
 
 
